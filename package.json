@@ -1,0 +1,34 @@
+{
+  "name": "guitarshop",
+  "version": "1.0.0",
+  "description": "Guitarshop",
+  "keywords": [],
+  "author": {
+    "name": "Kevin Gonzalez",
+    "email": "keving5726@gmail.com"
+  },
+  "license": "UNLICENSED",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/keving5726/guitarshop.git"
+  },
+  "scripts": {
+    "watch": "webpack --watch",
+    "build": "webpack"
+  },
+  "devDependencies": {
+    "@fortawesome/fontawesome-free": "^5.14.0",
+    "bulma": "^0.9.0",
+    "clean-webpack-plugin": "^3.0.0",
+    "copy-webpack-plugin": "^6.1.1",
+    "css-loader": "^4.3.0",
+    "file-loader": "^6.1.0",
+    "mini-css-extract-plugin": "^0.11.2",
+    "sass": "^1.26.10",
+    "sass-loader": "^10.0.2",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
+  },
+  "dependencies": {}
+}
