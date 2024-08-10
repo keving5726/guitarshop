@@ -1,0 +1,33 @@
+<?php
+declare(strict_types=1);
+
+use Database\Migrations\DBMigrations;
+use Database\Fixtures\ProductFixtures;
+use Database\Fixtures\AverageRatingFixtures;
+
+require __DIR__.'/../app/autoload.php';
+
+if ($argc === 1)
+{
+    echo "Available options are 'migrate, load'. Please select one option available";
+    echo "\n";
+    exit;
+}
+
+switch ($argv[1])
+{
+case "migrate":
+    echo "Run new migration";
+    echo "\n";
+    new DBMigrations();
+    break;
+case "load":
+    echo "Load fixtures";
+    echo "\n";
+    new ProductFixtures();
+    new AverageRatingFixtures();
+    break;
+default:
+    echo "Available options are 'migrate, load'. Please select one option available";
+    break;
+}
