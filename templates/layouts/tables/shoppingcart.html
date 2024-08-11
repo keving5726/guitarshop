@@ -1,0 +1,76 @@
+<div class="container is-fluid">
+    <table class="table is-fullwidth has-text-centered">
+        <thead class="is-dark">
+            <tr>
+                <th scope="col">Code</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Unit Price</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Total</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($parameters["cart"] as $value) { ?>
+            <tr>
+                <td><?= $value->code ?></td>
+                <td><?= $value->name ?></td>
+                <td><?= $value->price ?> $</td>
+                <td><?= $value->quantity ?></td>
+                <td><?= $value->total ?> $</td>
+                <td>
+                    <form id="<?= $value->code ?>" method="post" action="/shoppingcart">
+                        <div class="field">
+                            <div class="control">
+                                <input type="hidden" name="_method" value="PUT">
+                            </div>
+                            <div class="control">
+                                <input type="hidden" name="code" value="<?= $value->code ?>">
+                            </div>
+                            <div class="control">
+                                <button class="button form-button" data-target="modal-remove" data-form="<?= $value->code ?>">
+                                    <span class="icon is-small">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </td>
+            </tr>
+            <?php } ?>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td class="has-text-right" colspan="3">Total:</td>
+                <td><?= $_SESSION["quantity"] ?></td>
+                <td><?= $_SESSION["total"] ?> $</td>
+                <td>
+                    <button class="button modal-button is-danger" data-target="modal-clean">Clear</button>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    <div class="container is-fluid">
+        <h2 class="title has-text-centered">Shipping Option</h2>
+        <div class="container has-text-centered">
+        <form id="pay" method="post" action="/purchases">
+            <div class="field is-grouped is-grouped-centered">
+                <div class="control">
+                    <label class="radio">
+                        <input type="radio" name="shipping" value="option1" required>
+                        Pick Up (USD 0)
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="shipping" value="option2" required>
+                        UPS (USD 5)
+                    </label>
+                </div>
+                <div class="control">
+                    <button class="button form-button is-success" data-target="modal-pay" data-form="pay">Pay</button>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>

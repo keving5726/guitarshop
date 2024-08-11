@@ -1,0 +1,39 @@
+<div class="container is-fluid">
+    <table class="table is-fullwidth has-text-centered">
+        <thead class="is-dark">
+            <tr>
+                <th scope="col">Code Purchase</th>
+                <th scope="col">Date</th>
+                <th scope="col">Shipping Option</th>
+                <th scope="col">Total</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($parameters["purchases"] as $value) { ?>
+            <tr>
+                <td><?= $value["code"] ?></td>
+                <td><?= $value["date"] ?></td>
+                <td><?= $value["shipping"] ?></td>
+                <td><?= $value["total"] ?> $</td>
+                <td>
+                    <a class="button" href="/purchases/<?= $value["code"] ?>">
+                        <span class="icon is-small">
+                            <i class="fas fa-eye"></i>
+                        </span>
+                    </a>
+                </td>
+            </tr>
+            <?php } ?>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td class="has-text-right" colspan="3">Total: </td>
+                <td><?= $_SESSION["total_purchases"] ?> $</td>
+                <td>
+                    <button class="button modal-button is-danger" data-target="modal-reset">Reset</button>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
