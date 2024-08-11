@@ -1,0 +1,83 @@
+<div id="rating" class="container is-fluid">
+    <div class="columns is-mobile">
+        <div class="column is-half is-offset-one-quarter">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title is-centered">
+                    <?= $parameters["product"]->name ?>
+                    </p>
+                </header>
+                <div class="card-image">
+                    <figure class="image">
+                        <img src="<?= $parameters["product"]->image ?>" alt="Guitar image">
+                    </figure>
+                </div>
+                <div class="card-content">
+                    <div class="content">
+                        <?php for ($i = 1; $i <= 5; $i++) { ?>
+                        <?php if ($parameters["average"]->average >= $i) { ?>
+                        <a class="rating-link" data-target="modal-rating" data-vote="<?= $i ?>">
+                            <i class="fas fa-star"></i>
+                        </a>
+                        <?php } else { ?>
+                        <a class="rating-link" data-target="modal-rating" data-vote="<?= $i ?>">
+                            <i class="far fa-star"></i>
+                        </a>
+                        <?php } ?>
+                        <?php } ?>
+                        <small id="average"><?= $parameters["average"]->average ?></small>
+                        <div class="dropdown is-hoverable">
+                            <div class="dropdown-trigger">
+                                <span class="icon has-text-info">
+                                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                            <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                                <div class="dropdown-content">
+                                    <div class="dropdown-item">
+                                        <small id="1">
+                                            1 star = <?= $parameters["average"]->vote_1 ?>
+                                        </small>
+                                    </div>
+                                    <div class="dropdown-item">
+                                        <small id="2">
+                                            2 star = <?= $parameters["average"]->vote_2 ?>
+                                        </small>
+                                    </div>
+                                    <div class="dropdown-item">
+                                        <small id="3">
+                                            3 star = <?= $parameters["average"]->vote_3 ?>
+                                        </small>
+                                    </div>
+                                    <div class="dropdown-item">
+                                        <small id="4">
+                                            4 star = <?= $parameters["average"]->vote_4 ?>
+                                        </small>
+                                    </div>
+                                    <div class="dropdown-item">
+                                        <small id="5">
+                                            5 star = <?= $parameters["average"]->vote_5 ?>
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                       <br>
+                        <strong>Code: </strong><?= $parameters["product"]->code ?>
+                        <br>
+                        <strong>Name: </strong><?= $parameters["product"]->name ?>
+                        <br>
+                        <strong>Price: </strong><?= $parameters["product"]->price ?>$
+                        <br>
+                        <strong>Description: </strong><?= $parameters["product"]->description ?>
+                    </div>
+                </div>
+                <footer class="card-footer">
+                    <div class="card-footer-item">
+                        <a class="button is-info" href="/products">Volver</a>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+</div>

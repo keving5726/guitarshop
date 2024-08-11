@@ -1,0 +1,49 @@
+<div class="container is-fluid">
+    <div class="columns is-multiline">
+        <?php foreach ($parameters["products"] as $value) { ?>
+        <div class="column is-one-third">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title is-centered">
+                    <?= $value->name ?>
+                    </p>
+                </header>
+                <div class="card-image">
+                    <figure class="image">
+                        <a href="/products/<?= $value->code ?>">
+                            <img src="<?= $value->image ?>" alt="Guitar image">
+                        </a>
+                    </figure>
+                </div>
+                <div class="card-content">
+                    <div class="content">
+                        <strong>Price: </strong><?= $value->price ?>$
+                        <br>
+                        <strong>Description: </strong><?= $value->description ?>
+                    </div>
+                </div>
+                <footer class="card-footer">
+                    <form method="POST" action="/shoppingcart">
+                        <div class="card-footer-item">
+                            <div class="field has-addons">
+                                <div class="control is-expanded">
+                                    <input class="input" type="number" id="quantity" name="quantity" placeholder="Quantity" min="1" max="9999">
+                                </div>
+                                <div class="control">
+                                    <input type="hidden" name="_method" value="POST">
+                                </div>
+                                <div class="control">
+                                    <input type="hidden" name="code" value="<?= $value->code ?>">
+                                </div>
+                                <div class="control">
+                                    <input class="button is-info" type="submit" value="Add">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </footer>
+            </div>
+        </div>
+        <?php } ?>
+    </div>
+</div>

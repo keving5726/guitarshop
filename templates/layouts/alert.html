@@ -1,0 +1,7 @@
+<?php if (isset($_SESSION["alert"])) { ?>
+<div class="notification is-<?= $_SESSION["alert"]["type"] ?> mx-5 my-6">
+    <button class="delete"></button>
+    <?= $_SESSION["alert"]["message"] ?>
+</div>
+<?php unset($_SESSION["alert"]) ?>
+<?php } ?>
