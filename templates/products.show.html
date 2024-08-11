@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+    <?php include VIEWS . "/layouts/head.html" ?>
+    <body>
+        <?php include VIEWS . "/layouts/header.html" ?>
+
+        <div class="flex my-5">
+            <h1 class="title has-text-centered"><?= $parameters["title"] ?></h1>
+
+            <?php include VIEWS . "/layouts/modals/rating.html" ?>
+            <?php include VIEWS . "/layouts/card.show.html" ?>
+        </div>
+
+        <?php include VIEWS . "/layouts/footer.html" ?>
+        <script src="/build/app.js"></script>
+        <script src="/build/rating.js"></script>
+    </body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+    <?php include VIEWS . "/layouts/head.html" ?>
+    <body>
+        <?php include VIEWS . "/layouts/header.html" ?>
+
+        <div class="flex my-5">
+            <h1 class="title has-text-centered"><?= $parameters["title"] ?></h1>
+            <?php if ($parameters["purchase"] === NULL) { ?>
+            <div class="notification mx-5">
+                The purchase does not exist
+            </div>
+            <?php } else { ?>
+            <?php include VIEWS . "/layouts/tables/purchases.show.html" ?>
+            <?php } ?>
+        </div>
+
+        <?php include VIEWS . "/layouts/footer.html" ?>
+        <script src="/build/app.js"></script>
+    </body>
+</html>
