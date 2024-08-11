@@ -1,0 +1,25 @@
+<div id="modal-clean" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">Clean</p>
+            <button class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+            <h1>Are you sure?</h1>
+        </section>
+        <footer class="modal-card-foot">
+            <form method="post" action="/shoppingcart">
+                <div class="field">
+                    <div class="control">
+                        <input type="hidden" name="_method" value="DELETE">
+                    </div>
+                    <div class="control">
+                        <button class="button modal-button is-danger mr-2" type="submit">Clear</button>
+                    </div>
+                </div>
+            </form>
+            <button class="button">Cancel</button>
+        </footer>
+    </div>
+</div>
