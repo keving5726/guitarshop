@@ -1,0 +1,43 @@
+%transition
+  transition: all .3s ease
+
+.footer
+  *
+    color: $white
+
+  h5
+    border-left: .25rem solid
+
+  a
+    text-decoration: none
+    background-color: transparent
+    color: $white
+
+  ul
+    list-style-type: none
+    margin: 0
+    padding: 0
+
+  ul.quick-links
+    li a
+      @extend %transition
+
+    li a:hover
+      margin-left: .25rem
+      color: $white
+      font-weight: $weight-bold
+
+  ul.socialmedia
+    li
+      display: inline
+
+    li span
+      @extend %transition
+      font-size: $body-font-size * 1.5
+
+    li span:hover
+      font-size: $body-font-size * 2
+      margin-top: -1rem
+
+    li i:hover
+      color: $grey-lighter
