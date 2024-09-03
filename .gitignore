@@ -1,6 +1,22 @@
-/vendor/
+# Node
 /node_modules/
-/public/build/
 npm-debug.log
 yarn-error.log
+
+# Composer
+/vendor/
+
+# Webpack
+/public/build/
+
+# Vim
 *.swp
+
+# Yarn
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
