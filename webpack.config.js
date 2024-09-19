@@ -13,7 +13,6 @@ module.exports = {
     output: {
         filename: '[name].js',
         path: path.resolve(__dirname, 'public/build/'),
-        publicPath: 'build/'
     },
     module: {
         rules: [
@@ -26,25 +25,13 @@ module.exports = {
                 ]
             },
             {
-                test: /\.(ttf|eot|woff(2)?)$/,
-                use: [{
-                    loader: 'file-loader',
-                    options: {
-                        outputPath: 'fonts/',
-                        publicPath: '/build/fonts/'
-                    }
-                }]
+                test: /\.(ttf|woff2)$/,
+                type: 'asset/resource',
+                generator: {
+                    publicPath: '/build/fonts/',
+                    outputPath: 'fonts/'
+                }
             },
-            {
-                test: /\.(png|jp(e)?g|svg|gif)$/,
-                use: [{
-                    loader: 'file-loader',
-                    options: {
-                        outputPath: 'images/',
-                        publicPath: '/build/images/'
-                    }
-                }]
-            }
         ]
     },
     plugins: [
