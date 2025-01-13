@@ -1,2 +1,12 @@
-$footer-background-color: hsl(0, 0%, 21%)
-@import "~bulma/sass/index"
+$custom-grey-dark: hsl(0, 0%, 21%)
+
+@forward "bulma/sass/base"
+@forward "bulma/sass/base/skeleton"
+@forward "bulma/sass/themes"
+@forward "bulma/sass/utilities"
+@forward "bulma/sass/elements"
+@forward "bulma/sass/form"
+@forward "bulma/sass/components"
+@forward "bulma/sass/grid"
+@forward "bulma/sass/layout" with ($footer-background-color: $custom-grey-dark)
+@forward "bulma/sass/helpers"
