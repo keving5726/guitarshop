@@ -23,24 +23,21 @@
                     </div>
                 </div>
                 <footer class="card-footer">
-                    <form method="POST" action="/shoppingcart">
-                        <div class="card-footer-item">
+                    <div class="card-footer-item">
+                        <form action="/shoppingcart" method="POST">
                             <div class="field has-addons">
-                                <div class="control is-expanded">
-                                    <input class="input" type="number" id="quantity" name="quantity" placeholder="Quantity" min="1" max="9999">
-                                </div>
                                 <div class="control">
-                                    <input type="hidden" name="_method" value="POST">
+                                    <input class="input" type="number" id="quantity" name="quantity" placeholder="Quantity" min="1" max="999999">
                                 </div>
                                 <div class="control">
                                     <input type="hidden" name="code" value="<?= $value->code ?>">
                                 </div>
                                 <div class="control">
-                                    <input class="button is-link" type="submit" value="Add">
+                                    <button class="button is-link" type="submit">Add</button>
                                 </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </footer>
             </div>
         </div>
