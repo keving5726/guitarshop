@@ -6,9 +6,8 @@ namespace App\Controller;
 use App\Model\Product;
 use App\Core\View;
 use App\Core\Session;
-use App\Core\ExceptionHandler;
 
-class ShoppingCartController extends Product implements iController
+class ShoppingCartController extends Product implements iShoppingCart
 {
     private ?array $cart;
     private ?int $quantity;
@@ -28,7 +27,7 @@ class ShoppingCartController extends Product implements iController
         return View::show("shoppingcart", ['cart' => $this->cart, 'title' => 'Shopping Cart']);
     }
 
-    public function new()
+    public function add()
     {
         $_POST["quantity"] = empty($_POST["quantity"]) ? 1 : $_POST["quantity"];
 
@@ -55,7 +54,7 @@ class ShoppingCartController extends Product implements iController
         $object->code = $product->code;
         $object->name = $product->name;
         $object->price = $product->price;
-        $object->quantity = empty($_POST["quantity"]) ? 1 : $_POST["quantity"];
+        $object->quantity = $_POST["quantity"];
         $object->total = $product->price * $object->quantity;
 
         $this->quantity += $object->quantity;
@@ -89,11 +88,7 @@ class ShoppingCartController extends Product implements iController
         header('Location: /products');
     }
 
-    public function show(string $code)
-    {
-    }
-
-    public function edit()
+    public function remove()
     {
         $code = $_POST["code"];
         foreach ($this->cart as $key => $value)
@@ -109,7 +104,7 @@ class ShoppingCartController extends Product implements iController
 
         if (empty($this->cart))
         {
-            Session::clean();
+            Session::clear();
         }
 
         $this->alert = [
@@ -120,9 +115,9 @@ class ShoppingCartController extends Product implements iController
         header('Location: /shoppingcart');
     }
 
-    public function delete()
+    public function clear()
     {
-        Session::clean();
+        Session::clear();
         header('Location: /shoppingcart');
     }
 
@@ -130,24 +125,5 @@ class ShoppingCartController extends Product implements iController
     {
         session_destroy();
         header('Location: /');
-    }
-
-    public function post()
-    {
-        switch ($_POST["_method"])
-        {
-            case 'POST':
-                $this->new();
-                break;
-            case 'PUT':
-                $this->edit();
-                break;
-            case 'DELETE':
-                $this->delete();
-                break;
-            default:
-                ExceptionHandler::defaultRequestHandler("Method \"{$_POST["_method"]}\" is not allowed", "405 Method Not Allowed");
-                break;
-        }
     }
 }
