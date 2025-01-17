@@ -20,7 +20,11 @@ $route->get('/about/', fn() => View::show("about", ['title' => 'About']));
 
 $route->get('/shoppingcart', fn() => Controller::run("ShoppingCartController"));
 
-$route->post('/shoppingcart', fn() => Controller::run("ShoppingCartController", "post"));
+$route->post('/shoppingcart', fn() => Controller::run("ShoppingCartController", "add"));
+
+$route->post('/shoppingcart/remove', fn() => Controller::run("ShoppingCartController", "remove"));
+
+$route->post('/shoppingcart/clear', fn() => Controller::run("ShoppingCartController", "clear"));
 
 $route->get('/purchases', fn() => Controller::run("PurchaseController"));
 
