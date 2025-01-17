@@ -18,7 +18,7 @@ class Session
         }
     }
 
-    public static function clean(): void
+    public static function clear(): void
     {
         $_SESSION["cart"] = NULL;
         $_SESSION["quantity"] = NULL;
