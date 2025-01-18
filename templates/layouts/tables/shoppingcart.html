@@ -1,12 +1,12 @@
 <div class="container is-fluid">
     <table class="table is-fullwidth has-text-centered">
-        <thead class="is-dark">
+        <thead>
             <tr>
                 <th scope="col">Code</th>
                 <th scope="col">Product Name</th>
                 <th scope="col">Unit Price</th>
                 <th scope="col">Quantity</th>
-                <th scope="col">Total</th>
+                <th scope="col">Subtotal</th>
                 <th scope="col">Action</th>
             </tr>
         </thead>
@@ -19,11 +19,8 @@
                 <td><?= $value->quantity ?></td>
                 <td><?= $value->total ?> $</td>
                 <td>
-                    <form id="<?= $value->code ?>" method="post" action="/shoppingcart">
+                    <form id="<?= $value->code ?>" action="/shoppingcart/remove" method="POST">
                         <div class="field">
-                            <div class="control">
-                                <input type="hidden" name="_method" value="PUT">
-                            </div>
                             <div class="control">
                                 <input type="hidden" name="code" value="<?= $value->code ?>">
                             </div>
@@ -46,7 +43,7 @@
                 <td><?= $_SESSION["quantity"] ?></td>
                 <td><?= $_SESSION["total"] ?> $</td>
                 <td>
-                    <button class="button modal-button is-danger" data-target="modal-clean">Clear</button>
+                    <button class="button modal-button is-danger" data-target="modal-clear">Clear</button>
                 </td>
             </tr>
         </tfoot>
