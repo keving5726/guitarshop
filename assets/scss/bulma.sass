@@ -4,9 +4,9 @@ $custom-grey-dark: hsl(0, 0%, 21%)
 @forward "bulma/sass/base/skeleton"
 @forward "bulma/sass/themes"
 @forward "bulma/sass/utilities"
-@forward "bulma/sass/elements"
+@forward "bulma/sass/elements" with ($table-head-background-color: $custom-grey-dark, $table-head-cell-color: hsl(0, 0%, 100%), $table-cell-text-align: center)
 @forward "bulma/sass/form" with ($input-placeholder-color: hsl(0, 0%, 29%))
-@forward "bulma/sass/components" with ($card-header-background-color: $custom-grey-dark, $card-header-color: hsl(221, 14%, 100%), $card-footer-background-color: hsl(0, 0%, 96%)) 
+@forward "bulma/sass/components" with ($card-header-background-color: $custom-grey-dark, $card-header-color: hsl(221, 14%, 100%), $card-footer-background-color: hsl(0, 0%, 96%), $modal-content-width: 30rem, $modal-card-head-background-color: $custom-grey-dark, $modal-card-title-color: hsl(0, 0%, 100%), $modal-card-foot-background-color: hsl(0, 0%, 96%))
 @forward "bulma/sass/grid"
 @forward "bulma/sass/layout" with ($footer-background-color: $custom-grey-dark)
 @forward "bulma/sass/helpers"
