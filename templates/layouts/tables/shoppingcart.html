@@ -14,7 +14,11 @@
             <?php foreach ($parameters["cart"] as $value) { ?>
             <tr>
                 <td><?= $value->code ?></td>
-                <td><?= $value->name ?></td>
+                <td>
+                    <a href="/products/<?= $value->code ?>">
+                        <?= $value->name ?>
+                    </a>
+                </td>
                 <td><?= $value->price ?> $</td>
                 <td><?= $value->quantity ?></td>
                 <td><?= $value->total ?> $</td>
