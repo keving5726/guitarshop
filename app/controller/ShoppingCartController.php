@@ -73,8 +73,13 @@ class ShoppingCartController extends Product implements iShoppingCart
                         'type' => "success",
                     ];
 
-                    header('Location: /products');
-                    return;
+                    if (isset($_POST["shoppingcart"])) {
+                        header('Location: /shoppingcart');
+                        return;
+                    } else {
+                        header('Location: /products');
+                        return;
+                    }
                 }
             }
         }
