@@ -29,9 +29,9 @@ class ShoppingCartController extends Product implements iShoppingCart
 
     public function add()
     {
-        $_POST["quantity"] = empty($_POST["quantity"]) ? 1 : $_POST["quantity"];
+        $quantity = empty($_POST["quantity"]) ? 1 : $_POST["quantity"];
 
-        if (!is_numeric($_POST["quantity"]))
+        if (!is_numeric($quantity))
         {
             $this->alert = [
                 'message' => "Invalid format: Only numbers",
@@ -43,9 +43,9 @@ class ShoppingCartController extends Product implements iShoppingCart
         }
         else
         {
-            if ($_POST["quantity"] < 1)
+            if ($quantity < 1)
             {
-                $_POST["quantity"] = 1;
+                $quantity = 1;
             }
         }
 
@@ -54,7 +54,7 @@ class ShoppingCartController extends Product implements iShoppingCart
         $object->code = $product->code;
         $object->name = $product->name;
         $object->price = $product->price;
-        $object->quantity = $_POST["quantity"];
+        $object->quantity = $quantity;
         $object->total = $product->price * $object->quantity;
 
         $this->quantity += $object->quantity;
