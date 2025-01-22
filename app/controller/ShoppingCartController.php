@@ -97,14 +97,35 @@ class ShoppingCartController extends Product implements iShoppingCart
     public function remove()
     {
         $code = $_POST["code"];
+
         foreach ($this->cart as $key => $value)
         {
             if ($value->code === $code)
             {
-                $this->quantity -= $value->quantity;
-                $this->total -= $value->total;
-                unset($this->cart[$key]);
-                break;
+                if (isset($_POST["shoppingcart"]))
+                {
+                    if ($value->quantity === 1)
+                    {
+                        $this->quantity -= 1;
+                        $this->total -= $value->price;
+
+                        unset($this->cart[$key]);
+                        break;
+                    } else {
+                        $value->quantity -= 1;
+                        $value->total -= $value->price;
+
+                        $this->quantity -= 1;
+                        $this->total -= $value->price;
+                        break;
+                    }
+                } else {
+                    $this->quantity -= $value->quantity;
+                    $this->total -= $value->total;
+
+                    unset($this->cart[$key]);
+                    break;
+                }
             }
         }
 
