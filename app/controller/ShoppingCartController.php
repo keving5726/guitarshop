@@ -30,6 +30,7 @@ class ShoppingCartController extends Product implements iShoppingCart
     public function add()
     {
         $quantity = empty($_POST["quantity"]) ? 1 : $_POST["quantity"];
+        $code = $_POST["code"];
 
         if (!is_numeric($quantity))
         {
@@ -49,7 +50,7 @@ class ShoppingCartController extends Product implements iShoppingCart
             }
         }
 
-        $product = (new Product())->getByCode($_POST["code"]);
+        $product = (new Product())->getByCode($code);
         $object = new \stdClass;
         $object->code = $product->code;
         $object->name = $product->name;
