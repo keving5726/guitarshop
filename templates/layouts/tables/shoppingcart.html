@@ -21,20 +21,56 @@
                 <td><?= $value->quantity ?></td>
                 <td><?= $value->total ?> $</td>
                 <td>
-                    <form id="<?= $value->code ?>" action="/shoppingcart/remove" method="POST">
-                        <div class="field">
-                            <div class="control">
-                                <input type="hidden" name="code" value="<?= $value->code ?>">
+                    <div class="buttons is-centered">
+                        <form action="/shoppingcart" method="POST">
+                            <div class="field">
+                                <div class="control">
+                                    <input type="hidden" name="code" value="<?= $value->code ?>">
+                                </div>
+                                <div class="control">
+                                    <input type="hidden" name="shoppingcart" value="true">
+                                </div>
+                                <div class="control">
+                                    <button class="button" type="submit">
+                                        <span class="icon is-small">
+                                            <i class="fa-solid fa-plus"></i>
+                                        </span>
+                                    </button>
+                                </div>
                             </div>
-                            <div class="control">
-                                <button class="button form-button" data-target="modal-remove" data-form="<?= $value->code ?>">
-                                    <span class="icon is-small">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </span>
-                                </button>
+                        </form>
+                        <form action="/shoppingcart/remove" method="POST">
+                            <div class="field">
+                                <div class="control">
+                                    <input type="hidden" name="code" value="<?= $value->code ?>">
+                                </div>
+                                <div class="control">
+                                    <input type="hidden" name="shoppingcart" value="true">
+                                </div>
+                                <div class="control">
+                                    <button class="button" type="submit">
+                                        <span class="icon is-small">
+                                            <i class="fa-solid fa-minus"></i>
+                                        </span>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                        <form id="<?= $value->code ?>" action="/shoppingcart/remove" method="POST">
+                            <div class="field">
+                                <div class="control">
+                                    <input type="hidden" name="code" value="<?= $value->code ?>">
+                                </div>
+                                <div class="control">
+                                    <button class="button form-button" data-target="modal-remove" data-form="<?= $value->code ?>">
+                                        <span class="icon is-small">
+                                            <i class="fa-solid fa-trash-alt"></i>
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </td>
             </tr>
             <?php } ?>
