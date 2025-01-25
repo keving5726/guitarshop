@@ -1,4 +1,4 @@
-<div class="container is-fluid">
+<div class="container">
     <table class="table is-fullwidth has-text-centered">
         <thead>
             <tr>
@@ -17,9 +17,9 @@
                         <?= $value->name ?>
                     </a>
                 </td>
-                <td><?= $value->price ?> $</td>
+                <td>$<?= $value->price ?></td>
                 <td><?= $value->quantity ?></td>
-                <td><?= $value->total ?> $</td>
+                <td>$<?= $value->subtotal ?></td>
                 <td>
                     <div class="buttons is-centered">
                         <form action="/shoppingcart" method="POST">
@@ -77,35 +77,16 @@
         </tbody>
         <tfoot>
             <tr>
-                <td class="has-text-right" colspan="2">Total:</td>
+                <td class="has-text-right" colspan="2">Subtotal:</td>
                 <td><?= $_SESSION["quantity"] ?></td>
-                <td><?= $_SESSION["total"] ?> $</td>
+                <td>$<?= $_SESSION["subtotal"] ?></td>
                 <td>
-                    <button class="button modal-button is-danger" data-target="modal-clear">Clear</button>
+                    <div class="buttons is-centered">
+                        <a class="button is-link" href="/shoppingcart/checkout">Proceed to checkout</a>
+                        <button class="button modal-button is-danger" data-target="modal-clear">Clear</button>
+                    </div>
                 </td>
             </tr>
         </tfoot>
     </table>
-    <div class="container is-fluid">
-        <h2 class="title has-text-centered">Shipping Option</h2>
-        <div class="container has-text-centered">
-        <form id="pay" method="post" action="/purchases">
-            <div class="field is-grouped is-grouped-centered">
-                <div class="control">
-                    <label class="radio">
-                        <input type="radio" name="shipping" value="option1" required>
-                        Pick Up (USD 0)
-                    </label>
-                    <label class="radio">
-                        <input type="radio" name="shipping" value="option2" required>
-                        UPS (USD 5)
-                    </label>
-                </div>
-                <div class="control">
-                    <button class="button form-button is-success" data-target="modal-pay" data-form="pay">Pay</button>
-                </div>
-            </div>
-        </form>
-        </div>
-    </div>
 </div>
