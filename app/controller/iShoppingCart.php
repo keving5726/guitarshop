@@ -9,4 +9,5 @@ interface iShoppingCart
     public function add();
     public function remove();
     public function clear();
+    public function checkout();
 }
