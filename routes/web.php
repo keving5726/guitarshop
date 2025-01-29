@@ -28,6 +28,8 @@ $route->post('/shoppingcart/clear', fn() => Controller::run("ShoppingCartControl
 
 $route->get('/shoppingcart/checkout', fn() => Controller::run("ShoppingCartController", "checkout"));
 
+$route->post('/shoppingcart/checkout', fn() => Controller::run("ShoppingCartController", "shippingOption"));
+
 $route->get('/purchases', fn() => Controller::run("PurchaseController"));
 
 $route->get('/purchases/{purchase}', fn($purchase) => Controller::run("PurchaseController", "show", ["$purchase"]));
