@@ -8,7 +8,8 @@ module.exports = {
     entry: {
         app: './assets/js/app.js',
         form: './assets/js/form.js',
-        rating: './assets/js/rating.js'
+        rating: './assets/js/rating.js',
+        shippingOption: './assets/js/shippingOption.js'
     },
     output: {
         filename: '[name].js',
