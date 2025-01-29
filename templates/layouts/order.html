@@ -1,0 +1,52 @@
+<div class="container">
+    <div class="columns is-mobile">
+        <div class="column is-one-third is-offset-4">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title is-centered">Order Summary</p>
+                </header>
+                <div class="card-content">
+                    <div class="content">
+                        <strong>Items: </strong><?= $_SESSION["quantity"] ?>
+                        <br>
+                        <strong>Subtotal: </strong>USD <?= $_SESSION["subtotal"] ?>
+                        <br>
+                        <strong>Choose a shipping option:</strong>
+                        <div class="select is-small">
+                            <select id="shippingSelect">
+                                <option value="pickup">Pick up (USD 0)</option>
+                                <option value="ups">UPS (USD 5)</option>
+                            </select>
+                        </div>
+                        <br>
+                        <strong>Discount: </strong>USD <?= $_SESSION["discount"] ?> (5%)
+                        <br>
+                        <strong>Total before tax: </strong>
+                        <span id="totalBeforeTax">
+                            USD <?= $_SESSION["totalBeforeTax"] ?>
+                        </span>
+                        <br>
+                        <hr>
+                        <strong>Estimated tax to be collected: </strong>
+                        <span id="tax">
+                            USD <?= $_SESSION["tax"] ?> (3%)
+                        </span>
+                        <br>
+                        <strong>Payment Total: </strong>
+                        <span id="total">
+                            USD <?= $_SESSION["total"] ?>
+                        </span>
+                    </div>
+                </div>
+                <footer class="card-footer">
+                    <div class="card-footer-item">
+                        <div class="buttons">
+                            <button class="button modal-button is-link" data-target="modal-checkout">Accept</button>
+                            <a class="button is-link" href="/shoppingcart">Back to Shopping Cart</a>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+</div>
