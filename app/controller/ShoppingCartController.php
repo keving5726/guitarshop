@@ -25,7 +25,7 @@ class ShoppingCartController extends Product implements iShoppingCart
         $this->quantity = &$_SESSION["quantity"];
         $this->subtotal = &$_SESSION["subtotal"];
         $this->discount = &$_SESSION["discount"];
-        $this->shippingOption = &$_SESSION["shipppingOption"];
+        $this->shippingOption = &$_SESSION["shippingOption"];
         $this->totalBeforeTax = &$_SESSION["totalBeforeTax"];
         $this->tax = &$_SESSION["tax"];
         $this->total = &$_SESSION["total"];
@@ -70,9 +70,16 @@ class ShoppingCartController extends Product implements iShoppingCart
 
         $this->quantity += $object->quantity;
         $this->subtotal += $object->subtotal;
-        $this->shippingOption = "pickup";
+        $this->shippingOption = empty($this->shippingOption) ? "pickup" : $this->shippingOption;
         $this->discount = ($this->subtotal * 5) / 100;
-        $this->totalBeforeTax = $this->subtotal - $this->discount;
+
+        if ($this->shippingOption === "ups")
+        {
+            $this->totalBeforeTax = $this->subtotal - $this->discount + 5;
+        } else {
+            $this->totalBeforeTax = $this->subtotal - $this->discount;
+        }
+
         $this->tax = ($this->totalBeforeTax * 3) / 100;
         $this->total = $this->totalBeforeTax + $this->tax;
 
