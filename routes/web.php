@@ -34,6 +34,6 @@ $route->get('/purchases', fn() => Controller::run("PurchaseController"));
 
 $route->get('/purchases/{purchase}', fn($purchase) => Controller::run("PurchaseController", "show", ["$purchase"]));
 
-$route->post('/purchases', fn() => Controller::run("PurchaseController", "new"));
+$route->post('/purchases', fn() => Controller::run("PurchaseController", "create"));
 
 $route->get('/logout', fn() => Controller::run("ShoppingCartController", "logout"));
