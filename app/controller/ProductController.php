@@ -16,7 +16,7 @@ class ProductController extends Product implements iController
         return View::show("products", ['products' => $products, 'title' => 'Products']);
     }
 
-    public function new()
+    public function create()
     {
     }
 

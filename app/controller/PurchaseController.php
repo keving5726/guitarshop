@@ -26,7 +26,7 @@ class PurchaseController implements iController
         return View::show("purchases", ['purchases' => $this->purchases, 'title' => 'Purchases']);
     }
 
-    public function new()
+    public function create()
     {
         if (empty($_POST["shipping"]))
         {
