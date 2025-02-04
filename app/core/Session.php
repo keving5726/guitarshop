@@ -21,7 +21,12 @@ class Session
     public static function clear(): void
     {
         $_SESSION["cart"] = NULL;
-        $_SESSION["quantity"] = NULL;
+        $_SESSION["items"] = NULL;
+        $_SESSION["subtotal"] = NULL;
+        $_SESSION["discount"] = NULL;
+        $_SESSION["shippingOption"] = NULL;
+        $_SESSION["totalBeforeTax"] = NULL;
+        $_SESSION["tax"] = NULL;
         $_SESSION["total"] = NULL;
     }
 }
