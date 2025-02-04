@@ -10,7 +10,7 @@ use App\Core\Session;
 class ShoppingCartController extends Product implements iShoppingCart
 {
     private ?array $cart;
-    private ?int $quantity;
+    private ?int $items;
     private ?int $subtotal;
     private ?float $discount;
     private ?string $shippingOption;
@@ -22,7 +22,7 @@ class ShoppingCartController extends Product implements iShoppingCart
     public function __construct()
     {
         $this->cart = &$_SESSION["cart"];
-        $this->quantity = &$_SESSION["quantity"];
+        $this->items = &$_SESSION["items"];
         $this->subtotal = &$_SESSION["subtotal"];
         $this->discount = &$_SESSION["discount"];
         $this->shippingOption = &$_SESSION["shippingOption"];
@@ -39,10 +39,10 @@ class ShoppingCartController extends Product implements iShoppingCart
 
     public function add()
     {
-        $quantity = empty($_POST["quantity"]) ? 1 : $_POST["quantity"];
+        $items = empty($_POST["items"]) ? 1 : $_POST["items"];
         $code = $_POST["code"];
 
-        if (!is_numeric($quantity))
+        if (!is_numeric($items))
         {
             $this->alert = [
                 'message' => "Invalid format: Only numbers",
@@ -54,9 +54,9 @@ class ShoppingCartController extends Product implements iShoppingCart
         }
         else
         {
-            if ($quantity < 1)
+            if ($items < 1)
             {
-                $quantity = 1;
+                $items = 1;
             }
         }
 
@@ -65,10 +65,10 @@ class ShoppingCartController extends Product implements iShoppingCart
         $object->code = $product->code;
         $object->name = $product->name;
         $object->price = $product->price;
-        $object->quantity = $quantity;
-        $object->subtotal = $product->price * $object->quantity;
+        $object->items = $items;
+        $object->subtotal = $product->price * $object->items;
 
-        $this->quantity += $object->quantity;
+        $this->items += $object->items;
         $this->subtotal += $object->subtotal;
         $this->shippingOption = empty($this->shippingOption) ? "pickup" : $this->shippingOption;
         $this->discount = ($this->subtotal * 5) / 100;
@@ -89,7 +89,7 @@ class ShoppingCartController extends Product implements iShoppingCart
             {
                 if ($value->code === $product->code)
                 {
-                    $value->quantity += $object->quantity;
+                    $value->items += $object->items;
                     $value->subtotal += $object->subtotal;
                     $this->alert = [
                         'message' => "Added to your shopping cart successfully",
@@ -126,23 +126,23 @@ class ShoppingCartController extends Product implements iShoppingCart
             {
                 if (isset($_POST["shoppingcart"]))
                 {
-                    if ($value->quantity === 1)
+                    if ($value->items === 1)
                     {
-                        $this->quantity -= 1;
+                        $this->items -= 1;
                         $this->subtotal -= $value->price;
 
                         unset($this->cart[$key]);
                         break;
                     } else {
-                        $value->quantity -= 1;
+                        $value->items -= 1;
                         $value->subtotal -= $value->price;
 
-                        $this->quantity -= 1;
+                        $this->items -= 1;
                         $this->subtotal -= $value->price;
                         break;
                     }
                 } else {
-                    $this->quantity -= $value->quantity;
+                    $this->items -= $value->items;
                     $this->subtotal -= $value->subtotal;
 
                     unset($this->cart[$key]);

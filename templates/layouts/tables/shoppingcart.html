@@ -4,7 +4,7 @@
             <tr>
                 <th scope="col">Product Name</th>
                 <th scope="col">Unit Price</th>
-                <th scope="col">Quantity</th>
+                <th scope="col">Items</th>
                 <th scope="col">Subtotal</th>
                 <th scope="col">Action</th>
             </tr>
@@ -18,7 +18,7 @@
                     </a>
                 </td>
                 <td>$<?= $value->price ?></td>
-                <td><?= $value->quantity ?></td>
+                <td><?= $value->items ?></td>
                 <td>$<?= $value->subtotal ?></td>
                 <td>
                     <div class="buttons is-centered">
@@ -78,7 +78,7 @@
         <tfoot>
             <tr>
                 <td class="has-text-right" colspan="2">Subtotal:</td>
-                <td><?= $_SESSION["quantity"] ?></td>
+                <td><?= $_SESSION["items"] ?></td>
                 <td>$<?= $_SESSION["subtotal"] ?></td>
                 <td>
                     <div class="buttons is-centered">
