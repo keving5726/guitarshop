@@ -7,17 +7,26 @@
                 </header>
                 <div class="card-content">
                     <div class="content">
-                        <strong>Items: </strong><?= $_SESSION["quantity"] ?>
+                        <strong>Items: </strong><?= $_SESSION["items"] ?>
                         <br>
                         <strong>Subtotal: </strong>USD <?= $_SESSION["subtotal"] ?>
                         <br>
                         <strong>Choose a shipping option:</strong>
+                        <?php if ($_SESSION["shippingOption"] === "ups") { ?>
                         <div class="select is-small">
                             <select id="shippingSelect">
                                 <option value="pickup">Pick up (USD 0)</option>
+                                <option value="ups" selected>UPS (USD 5)</option>
+                            </select>
+                        </div>
+                        <?php } else { ?>
+                        <div class="select is-small">
+                            <select id="shippingSelect">
+                                <option value="pickup" selected>Pick up (USD 0)</option>
                                 <option value="ups">UPS (USD 5)</option>
                             </select>
                         </div>
+                        <?php } ?>
                         <br>
                         <strong>Discount: </strong>USD <?= $_SESSION["discount"] ?> (5%)
                         <br>
