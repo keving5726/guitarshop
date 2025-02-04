@@ -156,6 +156,18 @@ class ShoppingCartController extends Product implements iShoppingCart
             Session::clear();
         }
 
+        $this->discount = ($this->subtotal * 5) / 100;
+
+        if ($this->shippingOption === "ups")
+        {
+            $this->totalBeforeTax = $this->subtotal - $this->discount + 5;
+        } else {
+            $this->totalBeforeTax = $this->subtotal - $this->discount;
+        }
+
+        $this->tax = ($this->totalBeforeTax * 3) / 100;
+        $this->total = $this->totalBeforeTax + $this->tax;
+
         $this->alert = [
             'message' => "Removed from your shopping cart successfully",
             'type' => "success",
