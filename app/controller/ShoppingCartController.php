@@ -72,16 +72,7 @@ class ShoppingCartController extends Product implements iShoppingCart
         $this->subtotal += $object->subtotal;
         $this->shippingOption = empty($this->shippingOption) ? "pickup" : $this->shippingOption;
         $this->discount = ($this->subtotal * 5) / 100;
-
-        if ($this->shippingOption === "ups")
-        {
-            $this->totalBeforeTax = $this->subtotal - $this->discount + 5;
-        } else {
-            $this->totalBeforeTax = $this->subtotal - $this->discount;
-        }
-
-        $this->tax = ($this->totalBeforeTax * 3) / 100;
-        $this->total = $this->totalBeforeTax + $this->tax;
+        $this->calculateTotal();
 
         if ($this->cart !== NULL)
         {
@@ -157,16 +148,7 @@ class ShoppingCartController extends Product implements iShoppingCart
         }
 
         $this->discount = ($this->subtotal * 5) / 100;
-
-        if ($this->shippingOption === "ups")
-        {
-            $this->totalBeforeTax = $this->subtotal - $this->discount + 5;
-        } else {
-            $this->totalBeforeTax = $this->subtotal - $this->discount;
-        }
-
-        $this->tax = ($this->totalBeforeTax * 3) / 100;
-        $this->total = $this->totalBeforeTax + $this->tax;
+        $this->calculateTotal();
 
         $this->alert = [
             'message' => "Removed from your shopping cart successfully",
@@ -189,26 +171,8 @@ class ShoppingCartController extends Product implements iShoppingCart
 
     public function shippingOption()
     {
-        $option = $_POST["shippingOption"];
-
-        switch ($option)
-        {
-        case "pickup":
-            $this->shippingOption = $option;
-            $this->totalBeforeTax = $this->subtotal - $this->discount;
-            $this->tax = ($this->totalBeforeTax * 3) / 100;
-            $this->total = $this->totalBeforeTax + $this->tax;
-            break;
-        case "ups":
-            $this->shippingOption = $option;
-            $this->totalBeforeTax = $this->subtotal - $this->discount + 5;
-            $this->tax = ($this->totalBeforeTax * 3) / 100;
-            $this->total = $this->totalBeforeTax + $this->tax;
-            break;
-        default:
-            ExceptionHandler::defaultRequestHandler("Shipping option \"$option\" is not allowed", "405 Shipping Option Not Allowed");
-            break;
-        }
+        $this->shippingOption = $_POST["shippingOption"];
+        $this->calculateTotal();
 
         $data = [
             'shippingOption' => "$this->shippingOption",
@@ -225,5 +189,24 @@ class ShoppingCartController extends Product implements iShoppingCart
     {
         session_destroy();
         header('Location: /');
+    }
+
+    public function calculateTotal()
+    {
+        switch ($this->shippingOption)
+        {
+        case "pickup":
+            $this->totalBeforeTax = $this->subtotal - $this->discount;
+            break;
+        case "ups":
+            $this->totalBeforeTax = $this->subtotal - $this->discount + 5;
+            break;
+        default:
+            ExceptionHandler::defaultRequestHandler("Shipping option \"$this->shippingOption\" is not allowed", "405 Shipping Option Not Allowed");
+            break;
+        }
+
+        $this->tax = ($this->totalBeforeTax * 3) / 100;
+        $this->total = $this->totalBeforeTax + $this->tax;
     }
 }
