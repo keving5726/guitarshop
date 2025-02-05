@@ -54,10 +54,7 @@ class ShoppingCartController extends Product implements iShoppingCart
         }
         else
         {
-            if ($items < 1)
-            {
-                $items = 1;
-            }
+            $items = ($items < 1) ? 1 : $items;
         }
 
         $product = (new Product())->getByCode($code);
