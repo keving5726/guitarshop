@@ -13,7 +13,7 @@ class Session
 
             if (!isset($_SESSION["balance"]))
             {
-                $_SESSION["balance"] = 5000;
+                $_SESSION["balance"] = (float) getenv('BALANCE') ?: '5000';
             }
         }
     }
