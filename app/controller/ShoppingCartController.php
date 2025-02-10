@@ -142,6 +142,11 @@ class ShoppingCartController extends Product implements iShoppingCart
         if (empty($this->cart))
         {
             Session::clear();
+            $this->alert = [
+                'message' => "Removed from your shopping cart successfully",
+                'type' => "success",
+            ];
+            header('Location: /shoppingcart');
         }
 
         $this->discount = ($this->subtotal * 5) / 100;
@@ -158,6 +163,10 @@ class ShoppingCartController extends Product implements iShoppingCart
     public function clear()
     {
         Session::clear();
+        $this->alert = [
+            'message' => "Your shopping cart was successfully cleared",
+            'type' => "success",
+        ];
         header('Location: /shoppingcart');
     }
 
