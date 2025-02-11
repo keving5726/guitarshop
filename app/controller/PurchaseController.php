@@ -104,7 +104,7 @@ class PurchaseController implements iController
     {
     }
 
-    public function delete()
+    public function destroy()
     {
     }
 }

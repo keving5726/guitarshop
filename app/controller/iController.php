@@ -9,5 +9,5 @@ interface iController
     public function create();
     public function show(string $id);
     public function edit();
-    public function delete();
+    public function destroy();
 }

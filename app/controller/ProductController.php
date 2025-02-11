@@ -35,7 +35,7 @@ class ProductController extends Product implements iController
     {
     }
 
-    public function delete()
+    public function destroy()
     {
     }
 
