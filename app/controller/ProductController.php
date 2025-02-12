@@ -10,17 +10,17 @@ use App\Core\ExceptionHandler;
 
 class ProductController extends Product implements iController
 {
-    public function index()
+    public function index(): ?View
     {
         $products = (new Product())->get();
         return View::show("products", ['products' => $products, 'title' => 'Products']);
     }
 
-    public function create()
+    public function create(): void
     {
     }
 
-    public function show(string $code)
+    public function show(string $code): ?ExceptionHandler
     {
         $product = (new Product())->getByCode($code);
         if ($product === NULL)
@@ -31,15 +31,15 @@ class ProductController extends Product implements iController
         return View::show("products.show", ['product' => $product, 'average' => $averageRating, 'title' => "Product Details"]);
     }
 
-    public function edit()
+    public function edit(): void
     {
     }
 
-    public function destroy()
+    public function destroy(): void
     {
     }
 
-    public function rating(string $code)
+    public function rating(string $code): void
     {
         if (!empty($_SESSION["rating"]))
         {

@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Model\Product;
 use App\Core\View;
 use App\Core\Session;
+use App\Core\ExceptionHandler;
 
 class ShoppingCartController extends Product implements iShoppingCart
 {
@@ -32,12 +33,12 @@ class ShoppingCartController extends Product implements iShoppingCart
         $this->alert = &$_SESSION["alert"];
     }
 
-    public function index()
+    public function index(): ?View
     {
         return View::show("shoppingcart", ['cart' => $this->cart, 'title' => 'Shopping Cart']);
     }
 
-    public function add()
+    public function add(): void
     {
         $items = empty($_POST["items"]) ? 1 : $_POST["items"];
         $code = $_POST["code"];
@@ -102,9 +103,10 @@ class ShoppingCartController extends Product implements iShoppingCart
         ];
 
         header('Location: /products');
+        return;
     }
 
-    public function remove()
+    public function remove(): void
     {
         $code = $_POST["code"];
 
@@ -147,6 +149,7 @@ class ShoppingCartController extends Product implements iShoppingCart
                 'type' => "success",
             ];
             header('Location: /shoppingcart');
+            return;
         }
 
         $this->discount = ($this->subtotal * 5) / 100;
@@ -158,9 +161,10 @@ class ShoppingCartController extends Product implements iShoppingCart
         ];
 
         header('Location: /shoppingcart');
+        return;
     }
 
-    public function clear()
+    public function clear(): void
     {
         Session::clear();
         $this->alert = [
@@ -168,14 +172,15 @@ class ShoppingCartController extends Product implements iShoppingCart
             'type' => "success",
         ];
         header('Location: /shoppingcart');
+        return;
     }
 
-    public function checkout()
+    public function checkout(): ?View
     {
         return View::show("checkout", ['cart' => $this->cart, 'title' => 'Checkout']);
     }
 
-    public function shippingOption()
+    public function shippingOption(): void
     {
         $this->shippingOption = $_POST["shippingOption"];
         $this->calculateTotal();
@@ -191,13 +196,14 @@ class ShoppingCartController extends Product implements iShoppingCart
         return;
     }
 
-    public function logout()
+    public function logout(): void
     {
         session_destroy();
         header('Location: /');
+        return;
     }
 
-    public function calculateTotal()
+    public function calculateTotal(): ?ExceptionHandler
     {
         switch ($this->shippingOption)
         {
@@ -214,5 +220,6 @@ class ShoppingCartController extends Product implements iShoppingCart
 
         $this->tax = ($this->totalBeforeTax * 3) / 100;
         $this->total = $this->totalBeforeTax + $this->tax;
+        return null;
     }
 }

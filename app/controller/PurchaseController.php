@@ -21,12 +21,12 @@ class PurchaseController implements iController
         $this->alert = &$_SESSION["alert"];
     }
 
-    public function index()
+    public function index(): ?View
     {
         return View::show("purchases", ['purchases' => $this->purchases, 'title' => 'Purchases']);
     }
 
-    public function create()
+    public function create(): void
     {
         if ($this->balance < $_SESSION["total"])
         {
@@ -76,7 +76,7 @@ class PurchaseController implements iController
         return;
     }
 
-    public function show(string $code)
+    public function show(string $code): ?View
     {
         foreach ($_SESSION["purchases"] as $value)
         {
@@ -100,11 +100,11 @@ class PurchaseController implements iController
         }
     }
 
-    public function edit()
+    public function edit(): void
     {
     }
 
-    public function destroy()
+    public function destroy(): void
     {
     }
 }
