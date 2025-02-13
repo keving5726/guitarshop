@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Core\View;
 use App\Core\Session;
+use App\core\ExceptionHandler;
 
 class PurchaseController implements iController
 {
@@ -76,7 +77,7 @@ class PurchaseController implements iController
         return;
     }
 
-    public function show(string $code): ?View
+    public function show(string $code): ?ExceptionHandler
     {
         foreach ($_SESSION["purchases"] as $value)
         {
@@ -93,11 +94,10 @@ class PurchaseController implements iController
 
                     $purchase[] = $object;
                 }
-
                 return View::show("purchases.show", ['purchase' => $purchase, 'title' => 'Purchase Details']);
-               
             }
         }
+        ExceptionHandler::defaultRequestHandler("The purchase does not exist");
     }
 
     public function edit(): void
