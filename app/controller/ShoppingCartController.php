@@ -12,7 +12,7 @@ class ShoppingCartController extends Product implements iShoppingCart
 {
     private ?array $cart;
     private ?int $items;
-    private ?int $subtotal;
+    private ?float $subtotal;
     private ?float $discount;
     private ?string $shippingOption;
     private ?float $totalBeforeTax;
