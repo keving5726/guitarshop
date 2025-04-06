@@ -9,16 +9,16 @@ use App\core\ExceptionHandler;
 
 class PurchaseController implements iController
 {
-    private ?float $balance;
+    private string $balance;
     private ?array $purchases;
-    private ?float $total;
+    private string $total;
     private ?array $alert;
 
     public function __construct()
     {
         $this->balance = &$_SESSION["balance"];
         $this->purchases = &$_SESSION["purchases"];
-        $this->total = &$_SESSION["total_purchases"];
+        $this->totalPurchases = &$_SESSION["totalPurchases"];
         $this->alert = &$_SESSION["alert"];
     }
 
@@ -53,7 +53,7 @@ class PurchaseController implements iController
         }
 
         $code = rand();
-        $this->total += $_SESSION["total"];
+        $this->totalPurchases = bcadd($this->totalPurchases, $_SESSION["total"], 2);
         $this->purchases[] = [
             "code" => "$code",
             "date" => (new \DateTime())->format('Y-m-d H:i:s'),
@@ -67,7 +67,7 @@ class PurchaseController implements iController
             "purchase" => $purchase
         ];
 
-        $this->balance -= $_SESSION["total"];
+        $this->balance = bcsub($this->balance, $_SESSION["total"], 2);
         Session::clear();
         $this->alert = [
             'message' => "Your purchase have been added successfully",

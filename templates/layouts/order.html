@@ -12,18 +12,18 @@
                         <strong>Subtotal: </strong>USD <?= $_SESSION["subtotal"] ?>
                         <br>
                         <strong>Choose a shipping option:</strong>
-                        <?php if ($_SESSION["shippingOption"] === "ups") { ?>
+                        <?php if ($_SESSION["shippingOption"] === "UPS") { ?>
                         <div class="select is-small">
                             <select id="shippingSelect">
-                                <option value="pickup">Pick up (USD 0)</option>
-                                <option value="ups" selected>UPS (USD 5)</option>
+                                <option value="Pick up">Pick up (USD 0)</option>
+                                <option value="UPS" selected>UPS (USD 5)</option>
                             </select>
                         </div>
                         <?php } else { ?>
                         <div class="select is-small">
                             <select id="shippingSelect">
-                                <option value="pickup" selected>Pick up (USD 0)</option>
-                                <option value="ups">UPS (USD 5)</option>
+                                <option value="Pick up" selected>Pick up (USD 0)</option>
+                                <option value="UPS">UPS (USD 5)</option>
                             </select>
                         </div>
                         <?php } ?>

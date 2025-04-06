@@ -11,13 +11,13 @@ use App\Core\ExceptionHandler;
 class ShoppingCartController extends Product implements iShoppingCart
 {
     private ?array $cart;
-    private ?int $items;
-    private ?float $subtotal;
-    private ?float $discount;
+    private string $items;
+    private string $subtotal;
+    private string $discount;
     private ?string $shippingOption;
-    private ?float $totalBeforeTax;
-    private ?float $tax;
-    private ?float $total;
+    private string $totalBeforeTax;
+    private string $tax;
+    private string $total;
     private ?array $alert;
 
     public function __construct()
@@ -40,7 +40,7 @@ class ShoppingCartController extends Product implements iShoppingCart
 
     public function add(): void
     {
-        $items = empty($_POST["items"]) ? 1 : $_POST["items"];
+        $items = empty($_POST["items"]) ? "1" : $_POST["items"];
         $code = $_POST["code"];
 
         if (!is_numeric($items))
@@ -53,10 +53,6 @@ class ShoppingCartController extends Product implements iShoppingCart
             header('Location: /products');
             return;
         }
-        else
-        {
-            $items = ($items < 1) ? 1 : $items;
-        }
 
         $product = (new Product())->getByCode($code);
         $object = new \stdClass;
@@ -64,12 +60,13 @@ class ShoppingCartController extends Product implements iShoppingCart
         $object->name = $product->name;
         $object->price = $product->price;
         $object->items = $items;
-        $object->subtotal = $product->price * $object->items;
+        $object->subtotal = bcmul($product->price, $object->items, 2);
 
-        $this->items += $object->items;
-        $this->subtotal += $object->subtotal;
-        $this->shippingOption = empty($this->shippingOption) ? "pickup" : $this->shippingOption;
-        $this->discount = ($this->subtotal * 5) / 100;
+        $this->items = bcadd($this->items, $object->items);
+        $this->subtotal = bcadd($this->subtotal, $object->subtotal, 2);
+        $this->shippingOption = empty($this->shippingOption) ? "Pick up" : $this->shippingOption;
+        $this->discount = bcmul($this->subtotal, "5", 2);
+        $this->discount = bcdiv($this->discount, "100", 2);
         $this->calculateTotal();
 
         if ($this->cart !== NULL)
@@ -78,17 +75,20 @@ class ShoppingCartController extends Product implements iShoppingCart
             {
                 if ($value->code === $product->code)
                 {
-                    $value->items += $object->items;
-                    $value->subtotal += $object->subtotal;
+                    $value->items = bcadd($value->items, $object->items);
+                    $value->subtotal = bcadd($value->subtotal, $object->subtotal, 2);
                     $this->alert = [
                         'message' => "Added to your shopping cart successfully",
                         'type' => "success",
                     ];
 
-                    if (isset($_POST["shoppingcart"])) {
+                    if (isset($_POST["shoppingcart"]))
+                    {
                         header('Location: /shoppingcart');
                         return;
-                    } else {
+                    }
+                    else
+                    {
                         header('Location: /products');
                         return;
                     }
@@ -116,24 +116,28 @@ class ShoppingCartController extends Product implements iShoppingCart
             {
                 if (isset($_POST["shoppingcart"]))
                 {
-                    if ($value->items === 1)
+                    if ($value->items === "1")
                     {
-                        $this->items -= 1;
-                        $this->subtotal -= $value->price;
+                        $this->items = bcsub($this->items, "1");
+                        $this->subtotal = bcsub($this->subtotal, $value->price, 2);
 
                         unset($this->cart[$key]);
                         break;
-                    } else {
-                        $value->items -= 1;
-                        $value->subtotal -= $value->price;
+                    }
+                    else
+                    {
+                        $value->items = bcsub($value->items, "1");
+                        $value->subtotal = bcsub($value->subtotal, $value->price, 2);
 
-                        $this->items -= 1;
-                        $this->subtotal -= $value->price;
+                        $this->items = bcsub($this->items, "1");
+                        $this->subtotal = bcsub($this->subtotal, $value->price, 2);
                         break;
                     }
-                } else {
-                    $this->items -= $value->items;
-                    $this->subtotal -= $value->subtotal;
+                }
+                else
+                {
+                    $this->items = bcsub($this->items, $value->items);
+                    $this->subtotal = bcsub($this->subtotal, $value->subtotal, 2);
 
                     unset($this->cart[$key]);
                     break;
@@ -152,7 +156,8 @@ class ShoppingCartController extends Product implements iShoppingCart
             return;
         }
 
-        $this->discount = ($this->subtotal * 5) / 100;
+        $this->discount = bcmul($this->subtotal, "5", 2);
+        $this->discount = bcdiv($this->discount, "100", 2);
         $this->calculateTotal();
 
         $this->alert = [
@@ -207,19 +212,21 @@ class ShoppingCartController extends Product implements iShoppingCart
     {
         switch ($this->shippingOption)
         {
-        case "pickup":
-            $this->totalBeforeTax = $this->subtotal - $this->discount;
+        case "Pick up":
+            $this->totalBeforeTax = bcsub($this->subtotal, $this->discount, 2);
             break;
-        case "ups":
-            $this->totalBeforeTax = $this->subtotal - $this->discount + 5;
+        case "UPS":
+            $this->totalBeforeTax = bcsub($this->subtotal, $this->discount, 2);
+            $this->totalBeforeTax = bcadd($this->totalBeforeTax, "5", 2);
             break;
         default:
             ExceptionHandler::defaultRequestHandler("Shipping option \"$this->shippingOption\" is not allowed", "405 Shipping Option Not Allowed");
             break;
         }
 
-        $this->tax = ($this->totalBeforeTax * 3) / 100;
-        $this->total = $this->totalBeforeTax + $this->tax;
+        $this->tax = bcmul($this->totalBeforeTax, "3", 2);
+        $this->tax = bcdiv($this->tax, "100", 2);
+        $this->total = bcadd($this->totalBeforeTax, $this->tax, 2);
         return null;
     }
 }

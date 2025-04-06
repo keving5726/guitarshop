@@ -13,7 +13,7 @@ class Session
 
             if (!isset($_SESSION["balance"]))
             {
-                $_SESSION["balance"] = (float) getenv('BALANCE') ?: '5000';
+                $_SESSION["balance"] = getenv("BALANCE") ?: "5000";
             }
 
             if (!isset($_SESSION["items"]))
@@ -45,6 +45,12 @@ class Session
             {
                 $_SESSION["total"] = "0";
             }
+
+            if (!isset($_SESSION["totalPurchases"]))
+            {
+                $_SESSION["totalPurchases"] = "0";
+            }
+
         }
     }
 
