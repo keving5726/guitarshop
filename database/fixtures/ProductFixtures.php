@@ -20,8 +20,6 @@ class ProductFixtures extends Product
         $product->setImage("/build/images/EX-200.png");
         $product->setPrice(300);
         $product->setDescription("LTD EXP-200");
-        $product->setCreatedAt(new \DateTime());
-        $product->setUpdatedAt(new \DateTime());
         $product->addProduct();
 
         $product->setCode("ex-401");
@@ -29,8 +27,6 @@ class ProductFixtures extends Product
         $product->setImage("/build/images/EX-401.png");
         $product->setPrice(350);
         $product->setDescription("LTD EXP-401");
-        $product->setCreatedAt(new \DateTime());
-        $product->setUpdatedAt(new \DateTime());
         $product->addProduct();
 
         $product->setCode("f-200");
@@ -38,8 +34,6 @@ class ProductFixtures extends Product
         $product->setImage("/build/images/F-200.png");
         $product->setPrice(400);
         $product->setDescription("LTD F-200");
-        $product->setCreatedAt(new \DateTime());
-        $product->setUpdatedAt(new \DateTime());
         $product->addProduct();
 
         $product->setCode("sn-1000fr");
@@ -47,8 +41,6 @@ class ProductFixtures extends Product
         $product->setImage("/build/images/SN-1000FR.png");
         $product->setPrice(300);
         $product->setDescription("LTD 1000");
-        $product->setCreatedAt(new \DateTime());
-        $product->setUpdatedAt(new \DateTime());
         $product->addProduct();
 
         $product->setCode("m-blackmetal");
@@ -56,8 +48,6 @@ class ProductFixtures extends Product
         $product->setImage("/build/images/M-BLACK_METAL.png");
         $product->setPrice(475);
         $product->setDescription("LTD BLACK METAL");
-        $product->setCreatedAt(new \DateTime());
-        $product->setUpdatedAt(new \DateTime());
         $product->addProduct();
 
         $product->setCode("espmystiquectm");
@@ -65,8 +55,6 @@ class ProductFixtures extends Product
         $product->setImage("/build/images/ESP_MYSTIQUE_CTM.png");
         $product->setPrice(500);
         $product->setDescription("ESP Original Mystique");
-        $product->setCreatedAt(new \DateTime());
-        $product->setUpdatedAt(new \DateTime());
         $product->addProduct();
 
         $product->setCode("espfrxctm");
@@ -74,8 +62,6 @@ class ProductFixtures extends Product
         $product->setImage("/build/images/ESP_FRX_CTM.png");
         $product->setPrice(550);
         $product->setDescription("ESP Original FRX");
-        $product->setCreatedAt(new \DateTime());
-        $product->setUpdatedAt(new \DateTime());
         $product->addProduct();
 
         $product->setCode("e-iiviper");
@@ -83,8 +69,6 @@ class ProductFixtures extends Product
         $product->setImage("/build/images/E-II_VIPER.png");
         $product->setPrice(300);
         $product->setDescription("ESP Viper");
-        $product->setCreatedAt(new \DateTime());
-        $product->setUpdatedAt(new \DateTime());
         $product->addProduct();
 
         $product->setCode("e-iit-b7baritone");
@@ -92,8 +76,6 @@ class ProductFixtures extends Product
         $product->setImage("/build/images/E-II_T-B7_BARITONE.png");
         $product->setPrice(450);
         $product->setDescription("ESP E-II T-B7");
-        $product->setCreatedAt(new \DateTime());
-        $product->setUpdatedAt(new \DateTime());
         $product->addProduct();
 
         $product->setCode("e-iiecplisedb");
@@ -101,8 +83,6 @@ class ProductFixtures extends Product
         $product->setImage("/build/images/E-II_ECLIPSE_DB.png");
         $product->setPrice(500);
         $product->setDescription("ESP E-II ECLIPSE DB");
-        $product->setCreatedAt(new \DateTime());
-        $product->setUpdatedAt(new \DateTime());
         $product->addProduct();
     }
 }
