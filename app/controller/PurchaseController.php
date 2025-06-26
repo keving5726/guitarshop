@@ -11,7 +11,7 @@ class PurchaseController implements iController
 {
     private string $balance;
     private ?array $purchases;
-    private string $total;
+    private string $totalPurchases;
     private ?array $alert;
 
     public function __construct()
