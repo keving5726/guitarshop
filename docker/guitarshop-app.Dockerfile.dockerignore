@@ -1,0 +1,25 @@
+# Node.js
+/node_modules/
+
+# Assets
+/assets/
+
+# Webpack
+/public/build/
+
+# Vim
+*.swp
+
+# Yarn
+.pnp.*
+.yarn/
+
+# Ignore environment variables file
+.env
+
+# Logs
+*.log
+
+# Git
+.git
+.gitignore
