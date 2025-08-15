@@ -6,7 +6,7 @@ set -e
 # Check if the environment variables file exists
 if [ ! -f .env ]
 then
-	cp .env.example .
+	cp .env.example .env
 fi
 
 # Run migration
