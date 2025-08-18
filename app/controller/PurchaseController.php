@@ -5,96 +5,31 @@ namespace App\Controller;
 
 use App\Core\View;
 use App\Core\Session;
+use App\core\ExceptionHandler;
 
 class PurchaseController implements iController
 {
-    private ?int $balance;
+    private string $balance;
     private ?array $purchases;
-    private ?int $total;
+    private string $totalPurchases;
     private ?array $alert;
 
     public function __construct()
     {
         $this->balance = &$_SESSION["balance"];
         $this->purchases = &$_SESSION["purchases"];
-        $this->total = &$_SESSION["total_purchases"];
+        $this->totalPurchases = &$_SESSION["totalPurchases"];
         $this->alert = &$_SESSION["alert"];
     }
 
-    public function index()
+    public function index(): ?View
     {
         return View::show("purchases", ['purchases' => $this->purchases, 'title' => 'Purchases']);
     }
 
-    public function new()
+    public function create(): void
     {
-        if (empty($_POST["shipping"]))
-        {
-            $this->alert = [
-                'message' => "Please select a shipping option",
-                'type' => "warning",
-            ];
-
-            header('Location: /shoppingcart');
-            return;
-        }
-        elseif($_POST["shipping"] === "option1")
-        {
-            $this->purchases(0);
-            return;
-        }
-        elseif($_POST["shipping"] === "option2")
-        {
-            $this->purchases(5);
-            return;
-        }
-        else
-        {
-            $this->alert = [
-                'message' => "Invalid shipping option",
-                'type' => "warning",
-            ];
-
-            header('Location: /shoppingcart');
-            return;
-        }
-    }
-
-    public function show(string $code)
-    {
-        foreach ($_SESSION["purchases"] as $value)
-        {
-            if ($value["code"] === $code)
-            {
-                foreach ($value["purchase"] as $value)
-                {
-                    $object = new \stdClass;
-                    $object->code = $value->code;
-                    $object->name = $value->name;
-                    $object->price = $value->price;
-                    $object->quantity = $value->quantity;
-                    $object->total = $value->total;
-
-                    $purchase[] = $object;
-                }
-
-                return View::show("purchases.show", ['purchase' => $purchase, 'title' => 'Purchase Details']);
-               
-            }
-        }
-    }
-
-    public function edit()
-    {
-    }
-
-    public function delete()
-    {
-    }
-
-    public function purchases(int $shipping): void
-    {
-        if ($this->balance < ($_SESSION["total"] + $shipping))
+        if ($this->balance < $_SESSION["total"])
         {
             $this->alert = [
                 'message' => "Your balance is insufficient",
@@ -111,24 +46,65 @@ class PurchaseController implements iController
             $object->code = $value->code;
             $object->name = $value->name;
             $object->price = $value->price;
-            $object->quantity = $value->quantity;
-            $object->total = $value->total;
+            $object->items = $value->items;
+            $object->subtotal = $value->subtotal;
 
             $purchase[] = $object;
         }
 
-        ($shipping === 0) ? $shipping_option = "Pick Up (USD 0)" : $shipping_option = "UPS (USD 5)";
         $code = rand();
-        $this->total += ($_SESSION["total"] + $shipping);
-        $this->purchases[] = ["code" => "$code", "purchase" => $purchase, "date" => (new \DateTime())->format('Y-m-d H:i:s'), "shipping" => $shipping_option, "total" => ($_SESSION["total"] + $shipping)];
+        $this->totalPurchases = bcadd($this->totalPurchases, $_SESSION["total"], 2);
+        $this->purchases[] = [
+            "code" => "$code",
+            "date" => (new \DateTime())->format('Y-m-d H:i:s'),
+            "items" => $_SESSION["items"],
+            "subtotal" => $_SESSION["subtotal"],
+            "discount" => $_SESSION["discount"],
+            "shippingOption" => $_SESSION["shippingOption"],
+            "totalBeforeTax" => $_SESSION["totalBeforeTax"],
+            "tax" => $_SESSION["tax"],
+            "total" => $_SESSION["total"],
+            "purchase" => $purchase
+        ];
 
-        $this->balance -= ($_SESSION["total"] + $shipping);
-        Session::clean();
+        $this->balance = bcsub($this->balance, $_SESSION["total"], 2);
+        Session::clear();
         $this->alert = [
             'message' => "Your purchase have been added successfully",
             'type' => "success",
         ];
-        header('Location: /shoppingcart');
+        header('Location: /purchases');
         return;
+    }
+
+    public function show(string $code): ?ExceptionHandler
+    {
+        foreach ($_SESSION["purchases"] as $value)
+        {
+            if ($value["code"] === $code)
+            {
+                foreach ($value["purchase"] as $value)
+                {
+                    $object = new \stdClass;
+                    $object->code = $value->code;
+                    $object->name = $value->name;
+                    $object->price = $value->price;
+                    $object->items = $value->items;
+                    $object->subtotal = $value->subtotal;
+
+                    $purchase[] = $object;
+                }
+                return View::show("purchases.show", ['purchase' => $purchase, 'title' => 'Purchase Details']);
+            }
+        }
+        ExceptionHandler::defaultRequestHandler("The purchase does not exist");
+    }
+
+    public function edit(): void
+    {
+    }
+
+    public function destroy(): void
+    {
     }
 }

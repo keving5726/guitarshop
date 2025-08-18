@@ -20,12 +20,20 @@ $route->get('/about/', fn() => View::show("about", ['title' => 'About']));
 
 $route->get('/shoppingcart', fn() => Controller::run("ShoppingCartController"));
 
-$route->post('/shoppingcart', fn() => Controller::run("ShoppingCartController", "post"));
+$route->post('/shoppingcart', fn() => Controller::run("ShoppingCartController", "add"));
+
+$route->post('/shoppingcart/remove', fn() => Controller::run("ShoppingCartController", "remove"));
+
+$route->post('/shoppingcart/clear', fn() => Controller::run("ShoppingCartController", "clear"));
+
+$route->get('/shoppingcart/checkout', fn() => Controller::run("ShoppingCartController", "checkout"));
+
+$route->post('/shoppingcart/checkout', fn() => Controller::run("ShoppingCartController", "shippingOption"));
 
 $route->get('/purchases', fn() => Controller::run("PurchaseController"));
 
 $route->get('/purchases/{purchase}', fn($purchase) => Controller::run("PurchaseController", "show", ["$purchase"]));
 
-$route->post('/purchases', fn() => Controller::run("PurchaseController", "new"));
+$route->post('/purchases', fn() => Controller::run("PurchaseController", "create"));
 
 $route->get('/logout', fn() => Controller::run("ShoppingCartController", "logout"));

@@ -1,0 +1,11 @@
+# Ignore all files
+*
+
+# Exclude the following files
+!package.json
+!yarn.lock
+!.yarnrc.yml
+!webpack.config.js
+
+# Exclude the assets directory
+!assets/

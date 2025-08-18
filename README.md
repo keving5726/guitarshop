@@ -1,26 +1,94 @@
-Guitarshop
+# Guitarshop
+**Guitarshop** is a test project for an online guitar shop developed using vanilla **PHP**.
 
-Guitarshop is a project about an online shop developed with vanilla PHP.
+## Table of contents
+- [Docker Support](#docker-support)
+- [Requirements](#requirements)
+- [Configuration](#configuration)
+  - [Web Server](#web-server)
+  - [Environment Variables](#environment-variables)
+  - [Run Migrations](#run-migrations)
+- [Package Installations](#package-installations)
+- [Enjoy the Project!](#enjoy-the-project)
+- [License](#license)
 
-Requirements:
+## Docker Support
+**Guitarshop** can be easily run using **Docker**, which simplifies the setup process and ensures a consistent development environment.
+Just run the following command in the project root:
+```bash
+docker compose up -d
+```
 
-* PHP >= 7.4
-* Yarn or NPM
-* DB: MySQL or PostgreSQL
-* Server Web (Nginx, Apache, Lighttpd, LiteSpeed, etc)
+## Requirements
+To run **Guitarshop**, ensure your environment meets the following requirements:
+- **PHP**: Version **8.4** or higher.
+- **Node.js**: Version **20.18.2** (LTS/Iron).
+- **Yarn**: Version **4.4.1**.
+- **Database**: Compatible with **MariaDB**, **MySQL**, **PostgreSQL**, **SQLite**.
+- **Web Server**: Compatible with **Nginx**, **Apache**, **Lighttpd**, **LiteSpeed**, etc.
 
-Configuration:
+## Configuration
 
-* Public Directory: You should configure your web server's document / web root to be the "public" directory. The "index.php" in this directory serves as the front controller for all HTTP requests entering your application.
+### Web Server
+The `public` directory acts as the document root. In this **Nginx** example the `public` directory is located at `/var/www/guitarshop/public/`:
+```nginx
+server {
+  listen 80 default_server;
+  listen [::]:80 default_server;
 
-* Configuration Files: All of the configuration files are stored in the "config" directory. Each option is documented, so feel free to look through the files and get familiar with the options available to you.
+  server_name guitarshop.local;
 
-* Database Configuration: Edit the file "database.php" in the "config" directory and execute the commands: "php bin/console migrate" then "php bin/console load".
+  root /var/www/guitarshop/public;
 
-Package Installations:
+  add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
 
-* You should use NPM or YARN to install the packages.
-* Execute the command "yarn install" or "npm install".
-* Execute the command "yarn run build" or "npm run build".
+  access_log /var/log/nginx/guitarshop.access.log;
+  error_log /var/log/nginx/guitarshop.error.log;
 
-Enjoy the project
+  location / {
+    # try to serve file directly, fallback to index.php
+    try_files $uri /index.php$is_args$args;
+  }
+
+  # pass PHP scripts to FastCGI server
+  #
+  #location ~ ^/index\.php(/|$)\.php$ {
+  #    include snippets/fastcgi-php.conf;
+  #
+  #    # With php-fpm (or other unix sockets):
+  #    fastcgi_pass unix:/run/php/php8.4-fpm.sock;
+  #    # With php-cgi (or other tcp sockets):
+  #    fastcgi_pass 127.0.0.1:9000;
+  #}
+
+  location ~ \.php$ {
+    return 404;
+  }
+}
+```
+
+### Environment Variables
+Copy the `.env.dist` file to create your own `.env` file. You will find several example variables that you need to configure according to your environment.
+Modify the values of the variables in the `.env` file to match your specific configuration.
+You can use the `.env.example` file as a guide.
+
+### Run Migrations
+Run the following commands to migrate and load the database:
+```bash
+php bin/console migrate
+php bin/console load
+```
+
+## Package Installations
+You can use **YARN** to install the necessary packages. Follow these steps:
+- Install the packages:
+`yarn install`
+- Build the project:
+`yarn build`
+
+## Enjoy the Project!
+Thank you for checking out **Guitarshop**! We hope you enjoy using and contributing to this project. If you have any questions or feedback, feel free to reach out!
+
+## License
+This project is licensed under the [Unlicense](http://unlicense.org/). This means you can do whatever you want with this project, without any restrictions.
+For more details, you can check the full text of the Unlicense at [LICENSE](https://github.com/keving5726/guitarshop1/blob/master/LICENSE).

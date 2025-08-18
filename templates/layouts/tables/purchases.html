@@ -4,7 +4,12 @@
             <tr>
                 <th scope="col">Code Purchase</th>
                 <th scope="col">Date</th>
+                <th scope="col">Items</th>
+                <th scope="col">Subtotal</th>
+                <th scope="col">Discount</th>
                 <th scope="col">Shipping Option</th>
+                <th scope="col">Total Before Tax</th>
+                <th scope="col">Tax</th>
                 <th scope="col">Total</th>
                 <th scope="col">Action</th>
             </tr>
@@ -12,10 +17,18 @@
         <tbody>
             <?php foreach ($parameters["purchases"] as $value) { ?>
             <tr>
-                <td><?= $value["code"] ?></td>
+                <td>
+                    <a href="/purchases/<?= $value['code'] ?>">
+                        <?= $value["code"] ?></td>
+                    </a>
                 <td><?= $value["date"] ?></td>
-                <td><?= $value["shipping"] ?></td>
-                <td><?= $value["total"] ?> $</td>
+                <td><?= $value["items"] ?></td>
+                <td>USD <?= $value["subtotal"] ?></td>
+                <td>USD <?= $value["discount"] ?> (5%)</td>
+                <td><?= $value["shippingOption"] ?></td>
+                <td>USD <?= $value["totalBeforeTax"] ?></td>
+                <td>USD <?= $value["tax"] ?> (3%)</td>
+                <td>USD <?= $value["total"] ?></td>
                 <td>
                     <a class="button" href="/purchases/<?= $value["code"] ?>">
                         <span class="icon is-small">
@@ -28,8 +41,8 @@
         </tbody>
         <tfoot>
             <tr>
-                <td class="has-text-right" colspan="3">Total: </td>
-                <td><?= $_SESSION["total_purchases"] ?> $</td>
+                <td class="has-text-right" colspan="8">Total: </td>
+                <td>USD <?= $_SESSION["totalPurchases"] ?></td>
                 <td>
                     <button class="button modal-button is-danger" data-target="modal-reset">Reset</button>
                 </td>

@@ -8,12 +8,12 @@ module.exports = {
     entry: {
         app: './assets/js/app.js',
         form: './assets/js/form.js',
-        rating: './assets/js/rating.js'
+        rating: './assets/js/rating.js',
+        shippingOption: './assets/js/shippingOption.js'
     },
     output: {
         filename: '[name].js',
         path: path.resolve(__dirname, 'public/build/'),
-        publicPath: 'build/'
     },
     module: {
         rules: [
@@ -26,25 +26,13 @@ module.exports = {
                 ]
             },
             {
-                test: /\.(ttf|eot|woff(2)?)$/,
-                use: [{
-                    loader: 'file-loader',
-                    options: {
-                        outputPath: 'fonts/',
-                        publicPath: '/build/fonts/'
-                    }
-                }]
+                test: /\.(ttf|woff2)$/,
+                type: 'asset/resource',
+                generator: {
+                    publicPath: '/build/fonts/',
+                    outputPath: 'fonts/'
+                }
             },
-            {
-                test: /\.(png|jp(e)?g|svg|gif)$/,
-                use: [{
-                    loader: 'file-loader',
-                    options: {
-                        outputPath: 'images/',
-                        publicPath: '/build/images/'
-                    }
-                }]
-            }
         ]
     },
     plugins: [

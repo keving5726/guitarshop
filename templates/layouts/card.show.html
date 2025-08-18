@@ -67,14 +67,17 @@
                         <br>
                         <strong>Name: </strong><?= $parameters["product"]->name ?>
                         <br>
-                        <strong>Price: </strong><?= $parameters["product"]->price ?>$
+                        <strong>Price: </strong>$<?= $parameters["product"]->price ?>
                         <br>
                         <strong>Description: </strong><?= $parameters["product"]->description ?>
                     </div>
                 </div>
                 <footer class="card-footer">
                     <div class="card-footer-item">
-                        <a class="button is-info" href="/products">Volver</a>
+                        <div class="buttons">
+                            <a class="button is-link" href="/products">Go to Products</a>
+                            <a class="button is-link" href="/shoppingcart">Go to Shopping Cart</a>
+                        </div>
                     </div>
                 </footer>
             </div>

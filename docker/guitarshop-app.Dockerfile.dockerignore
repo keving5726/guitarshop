@@ -1,5 +1,8 @@
-# Node
+# Node.js
 /node_modules/
+
+# Assets
+/assets/
 
 # Webpack
 /public/build/
@@ -9,15 +12,14 @@
 
 # Yarn
 .pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/sdks
-!.yarn/versions
+.yarn/
 
 # Ignore environment variables file
 .env
 
 # Logs
 *.log
+
+# Git
+.git
+.gitignore

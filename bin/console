@@ -4,8 +4,11 @@ declare(strict_types=1);
 use Database\Migrations\DBMigrations;
 use Database\Fixtures\ProductFixtures;
 use Database\Fixtures\AverageRatingFixtures;
+use App\Core\EnvLoader;
 
 require __DIR__.'/../app/autoload.php';
+
+$envLoader = new EnvLoader();
 
 if ($argc === 1)
 {
@@ -13,6 +16,8 @@ if ($argc === 1)
     echo "\n";
     exit;
 }
+
+$envLoader->initialize();
 
 switch ($argv[1])
 {

@@ -6,8 +6,8 @@ namespace App\Controller;
 interface iController
 {
     public function index();
-    public function new();
+    public function create();
     public function show(string $id);
     public function edit();
-    public function delete();
+    public function destroy();
 }

@@ -8,31 +8,42 @@ use App\Core\View;
 use App\Core\Session;
 use App\Core\ExceptionHandler;
 
-class ShoppingCartController extends Product implements iController
+class ShoppingCartController extends Product implements iShoppingCart
 {
     private ?array $cart;
-    private ?int $quantity;
-    private ?int $total;
+    private string $items;
+    private string $subtotal;
+    private string $discount;
+    private ?string $shippingOption;
+    private string $totalBeforeTax;
+    private string $tax;
+    private string $total;
     private ?array $alert;
 
     public function __construct()
     {
         $this->cart = &$_SESSION["cart"];
-        $this->quantity = &$_SESSION["quantity"];
+        $this->items = &$_SESSION["items"];
+        $this->subtotal = &$_SESSION["subtotal"];
+        $this->discount = &$_SESSION["discount"];
+        $this->shippingOption = &$_SESSION["shippingOption"];
+        $this->totalBeforeTax = &$_SESSION["totalBeforeTax"];
+        $this->tax = &$_SESSION["tax"];
         $this->total = &$_SESSION["total"];
         $this->alert = &$_SESSION["alert"];
     }
 
-    public function index()
+    public function index(): ?View
     {
         return View::show("shoppingcart", ['cart' => $this->cart, 'title' => 'Shopping Cart']);
     }
 
-    public function new()
+    public function add(): void
     {
-        $_POST["quantity"] = empty($_POST["quantity"]) ? 1 : $_POST["quantity"];
+        $items = empty($_POST["items"]) ? "1" : $_POST["items"];
+        $code = $_POST["code"];
 
-        if (!is_numeric($_POST["quantity"]))
+        if (!is_numeric($items))
         {
             $this->alert = [
                 'message' => "Invalid format: Only numbers",
@@ -42,24 +53,21 @@ class ShoppingCartController extends Product implements iController
             header('Location: /products');
             return;
         }
-        else
-        {
-            if ($_POST["quantity"] < 1)
-            {
-                $_POST["quantity"] = 1;
-            }
-        }
 
-        $product = (new Product())->getByCode($_POST["code"]);
+        $product = (new Product())->getByCode($code);
         $object = new \stdClass;
         $object->code = $product->code;
         $object->name = $product->name;
         $object->price = $product->price;
-        $object->quantity = empty($_POST["quantity"]) ? 1 : $_POST["quantity"];
-        $object->total = $product->price * $object->quantity;
+        $object->items = $items;
+        $object->subtotal = bcmul($product->price, $object->items, 2);
 
-        $this->quantity += $object->quantity;
-        $this->total += $object->total;
+        $this->items = bcadd($this->items, $object->items);
+        $this->subtotal = bcadd($this->subtotal, $object->subtotal, 2);
+        $this->shippingOption = empty($this->shippingOption) ? "Pick up" : $this->shippingOption;
+        $this->discount = bcmul($this->subtotal, "5", 2);
+        $this->discount = bcdiv($this->discount, "100", 2);
+        $this->calculateTotal();
 
         if ($this->cart !== NULL)
         {
@@ -67,15 +75,23 @@ class ShoppingCartController extends Product implements iController
             {
                 if ($value->code === $product->code)
                 {
-                    $value->quantity += $object->quantity;
-                    $value->total += $object->total;
+                    $value->items = bcadd($value->items, $object->items);
+                    $value->subtotal = bcadd($value->subtotal, $object->subtotal, 2);
                     $this->alert = [
                         'message' => "Added to your shopping cart successfully",
                         'type' => "success",
                     ];
 
-                    header('Location: /products');
-                    return;
+                    if (isset($_POST["shoppingcart"]))
+                    {
+                        header('Location: /shoppingcart');
+                        return;
+                    }
+                    else
+                    {
+                        header('Location: /products');
+                        return;
+                    }
                 }
             }
         }
@@ -87,30 +103,62 @@ class ShoppingCartController extends Product implements iController
         ];
 
         header('Location: /products');
+        return;
     }
 
-    public function show(string $code)
-    {
-    }
-
-    public function edit()
+    public function remove(): void
     {
         $code = $_POST["code"];
+
         foreach ($this->cart as $key => $value)
         {
             if ($value->code === $code)
             {
-                $this->quantity -= $value->quantity;
-                $this->total -= $value->total;
-                unset($this->cart[$key]);
-                break;
+                if (isset($_POST["shoppingcart"]))
+                {
+                    if ($value->items === "1")
+                    {
+                        $this->items = bcsub($this->items, "1");
+                        $this->subtotal = bcsub($this->subtotal, $value->price, 2);
+
+                        unset($this->cart[$key]);
+                        break;
+                    }
+                    else
+                    {
+                        $value->items = bcsub($value->items, "1");
+                        $value->subtotal = bcsub($value->subtotal, $value->price, 2);
+
+                        $this->items = bcsub($this->items, "1");
+                        $this->subtotal = bcsub($this->subtotal, $value->price, 2);
+                        break;
+                    }
+                }
+                else
+                {
+                    $this->items = bcsub($this->items, $value->items);
+                    $this->subtotal = bcsub($this->subtotal, $value->subtotal, 2);
+
+                    unset($this->cart[$key]);
+                    break;
+                }
             }
         }
 
         if (empty($this->cart))
         {
-            Session::clean();
+            Session::clear();
+            $this->alert = [
+                'message' => "Removed from your shopping cart successfully",
+                'type' => "success",
+            ];
+            header('Location: /shoppingcart');
+            return;
         }
+
+        $this->discount = bcmul($this->subtotal, "5", 2);
+        $this->discount = bcdiv($this->discount, "100", 2);
+        $this->calculateTotal();
 
         $this->alert = [
             'message' => "Removed from your shopping cart successfully",
@@ -118,36 +166,67 @@ class ShoppingCartController extends Product implements iController
         ];
 
         header('Location: /shoppingcart');
+        return;
     }
 
-    public function delete()
+    public function clear(): void
     {
-        Session::clean();
+        Session::clear();
+        $this->alert = [
+            'message' => "Your shopping cart was successfully cleared",
+            'type' => "success",
+        ];
         header('Location: /shoppingcart');
+        return;
     }
 
-    public function logout()
+    public function checkout(): ?View
+    {
+        return View::show("checkout", ['cart' => $this->cart, 'title' => 'Checkout']);
+    }
+
+    public function shippingOption(): void
+    {
+        $this->shippingOption = $_POST["shippingOption"];
+        $this->calculateTotal();
+
+        $data = [
+            'shippingOption' => "$this->shippingOption",
+            'totalBeforeTax' => $this->totalBeforeTax,
+            'tax' => $this->tax,
+            'total' => $this->total
+        ];
+
+        echo json_encode($data);
+        return;
+    }
+
+    public function logout(): void
     {
         session_destroy();
         header('Location: /');
+        return;
     }
 
-    public function post()
+    public function calculateTotal(): ?ExceptionHandler
     {
-        switch ($_POST["_method"])
+        switch ($this->shippingOption)
         {
-            case 'POST':
-                $this->new();
-                break;
-            case 'PUT':
-                $this->edit();
-                break;
-            case 'DELETE':
-                $this->delete();
-                break;
-            default:
-                ExceptionHandler::defaultRequestHandler("Method \"{$_POST["_method"]}\" is not allowed", "405 Method Not Allowed");
-                break;
+        case "Pick up":
+            $this->totalBeforeTax = bcsub($this->subtotal, $this->discount, 2);
+            break;
+        case "UPS":
+            $this->totalBeforeTax = bcsub($this->subtotal, $this->discount, 2);
+            $this->totalBeforeTax = bcadd($this->totalBeforeTax, "5", 2);
+            break;
+        default:
+            ExceptionHandler::defaultRequestHandler("Shipping option \"$this->shippingOption\" is not allowed", "405 Shipping Option Not Allowed");
+            break;
         }
+
+        $this->tax = bcmul($this->totalBeforeTax, "3", 2);
+        $this->tax = bcdiv($this->tax, "100", 2);
+        $this->total = bcadd($this->totalBeforeTax, $this->tax, 2);
+        return null;
     }
 }
