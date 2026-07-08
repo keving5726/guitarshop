@@ -92,5 +92,4 @@ Thank you for checking out **Guitarshop**! We hope you enjoy using and contribut
 ## :scroll: License
 
 This project is open-source and licensed under the **MIT License**.\
-You are free to use, modify, and distribute it, even for commercial purposes, as long as the original copyright notice is included.\
 For more information, please see the [LICENSE](LICENSE) file.
