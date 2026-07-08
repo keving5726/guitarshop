@@ -89,6 +89,8 @@ You can use **YARN** to install the necessary packages. Follow these steps:
 ## Enjoy the Project!
 Thank you for checking out **Guitarshop**! We hope you enjoy using and contributing to this project. If you have any questions or feedback, feel free to reach out!
 
-## License
-This project is licensed under the [Unlicense](http://unlicense.org/). This means you can do whatever you want with this project, without any restrictions.
-For more details, you can check the full text of the Unlicense at [LICENSE](https://github.com/keving5726/guitarshop1/blob/master/LICENSE).
+## :scroll: License
+
+This project is open-source and licensed under the **MIT License**. You are free to use, modify, and distribute it, even for commercial purposes, as long as the original copyright notice is included.
+
+For more information, please see the [LICENSE](LICENSE) file.
